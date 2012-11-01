@@ -54,12 +54,14 @@ define apt::repository (
                 exec { "aptkey_add_${key}":                                                                       
                     command => "gpg --recv-key ${key} ; gpg -a --export | apt-key add -",
                     unless  => "apt-key list | grep -q ${key}",
+		    path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ]
                 }
             }
             default: {
                 exec { "aptkey_add_${key}":
                     command => "wget -O - ${key_url} | apt-key add -",
                     unless  => "apt-key list | grep -q ${key}",
+		    path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ]
                 }
             }
         }
